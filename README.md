@@ -33,6 +33,13 @@ curl -fL -o dsh-kassel-boot-0.1.1.tgz \
   https://github.com/Ffwjl010831/dsh-plugin-kassel-boot/releases/download/v0.1.1/dsh-kassel-boot-0.1.1.tgz
 ```
 
+下载报 `HTTP2 framing layer` 或连接被重置时，换 CDN 镜像：
+
+```bash
+curl -fL -o dsh-kassel-boot-0.1.1.tgz \
+  https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/dsh-kassel-boot-0.1.1.tgz
+```
+
 再装进桌面端 profile：
 
 ```bash
