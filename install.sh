@@ -14,9 +14,11 @@ VER="0.1.0"
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
 SELF_DIR=$(cd "$(dirname "$0")" && pwd)
 
-# 没有本地包时，从这个地址下载（push 到 GitHub 后把 __GITHUB_USER__ 换成你的用户名）
-PKG_URL="${KASSEL_PKG_URL:-https://raw.githubusercontent.com/__GITHUB_USER__/dsh-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz}"
-case "$PKG_URL" in *__GITHUB_USER__*) PKG_URL="" ;; esac
+# 没有本地包时，从这个地址下载
+PKG_URL="${KASSEL_PKG_URL:-https://raw.githubusercontent.com/Ffwjl010831/dsh-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz}"
+# 占位符还没换成真用户名时，视为未配置（字符串拼开写，避免被 build-share 的 sed 一起替换）
+PLACEHOLDER="__GITHUB""_USER__"
+case "$PKG_URL" in *"$PLACEHOLDER"*) PKG_URL="" ;; esac
 
 blue()  { printf "\033[1;34m%s\033[0m\n" "$1"; }
 ok()    { printf "  \033[32m✓\033[0m %s\n" "$1"; }

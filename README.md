@@ -22,7 +22,7 @@
 ### 方式一：一行命令（推荐）
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/__GITHUB_USER__/dsh-kassel-boot/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Ffwjl010831/dsh-kassel-boot/main/install.sh | bash
 ```
 
 装完 **⌘Q 完全退出 DeepSeek Harness**，再打开就能看到动画。
@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/__GITHUB_USER__/dsh-kassel-boot/mai
 ### 方式三：标准 npm 包
 
 ```bash
-dsh plugin --profile desktop add https://raw.githubusercontent.com/__GITHUB_USER__/dsh-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz
+dsh plugin --profile desktop add https://raw.githubusercontent.com/Ffwjl010831/dsh-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz
 ```
 
 > 需要先把 DSH 的命令行工具装进 PATH（DSH 设置里的「安装命令行工具」）。
@@ -61,7 +61,7 @@ ln -sfn ../../plugins/dsh-kassel-boot ~/.dsh/profiles/desktop/node_modules/dsh-k
 ## 卸载
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/__GITHUB_USER__/dsh-kassel-boot/main/install.sh | bash -s -- --uninstall
+curl -fsSL https://raw.githubusercontent.com/Ffwjl010831/dsh-kassel-boot/main/install.sh | bash -s -- --uninstall
 ```
 
 或者本地跑 `sh install.sh --uninstall`。

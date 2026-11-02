@@ -10,7 +10,7 @@ cd "$DIR"
 
 USER_NAME="$1"
 if [ -n "$USER_NAME" ]; then
-  sed -i '' "s|__GITHUB_USER__|$USER_NAME|g" install.sh README.md
+  perl -pi -e "s|__GITHUB_USER__|$USER_NAME|g" install.sh README.md
   echo "已把发布地址里的用户名设为 $USER_NAME"
 fi
 
