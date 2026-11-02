@@ -14,11 +14,12 @@ VER="0.1.0"
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
 SELF_DIR=$(cd "$(dirname "$0")" && pwd)
 
-# 没有本地包时，从这个地址下载
-PKG_URL="${KASSEL_PKG_URL:-https://raw.githubusercontent.com/Ffwjl010831/dsh-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz}"
-# 占位符还没换成真用户名时，视为未配置（字符串拼开写，避免被 build-share 的 sed 一起替换）
+# 没有本地包时的下载源。国内直连 raw.githubusercontent.com 经常超时，所以 CDN 放第一。
+PKG_URL="${KASSEL_PKG_URL:-https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@main/dsh-kassel-boot-0.1.0.tgz}"
+MIRROR_1="https://raw.githubusercontent.com/Ffwjl010831/dsh-plugin-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz"
+MIRROR_2="https://ghfast.top/https://raw.githubusercontent.com/Ffwjl010831/dsh-plugin-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz"
+# 占位符还没换成真用户名时视为未配置（字符串拼开写，避免被 build-share 的 perl 一起替换）
 PLACEHOLDER="__GITHUB""_USER__"
-case "$PKG_URL" in *"$PLACEHOLDER"*) PKG_URL="" ;; esac
 
 blue()  { printf "\033[1;34m%s\033[0m\n" "$1"; }
 ok()    { printf "  \033[32m✓\033[0m %s\n" "$1"; }
@@ -142,10 +143,26 @@ if [ -z "$SRC" ] && [ -n "$PKG_URL" ]; then
 fi
 [ -n "$SRC" ] || die "找不到安装包（dsh-kassel-boot-*.tgz），请把它和本脚本放在一起。"
 
+fetch_pkg() {
+  # 依次尝试传入的地址，能下到、而且确实是个 tar.gz，才算成功
+  for u in "$@"; do
+    [ -n "$u" ] || continue
+    case "$u" in *"$PLACEHOLDER"*) continue ;; esac
+    printf "  · 尝试 %s…\n" "$(printf '%s' "$u" | cut -c1-58)"
+    if curl -fsSL --connect-timeout 8 -m 90 "$u" -o "$STAGE/pkg.tgz" 2>/dev/null \
+      && [ -s "$STAGE/pkg.tgz" ] && tar -tzf "$STAGE/pkg.tgz" >/dev/null 2>&1; then
+      ok "下载完成"
+      return 0
+    fi
+    warn "这个源不通，换下一个"
+  done
+  return 1
+}
+
 case "$SRC" in
   http://*|https://*)
-    ok "下载安装包…"
-    curl -fsSL "$SRC" -o "$STAGE/pkg.tgz" || die "下载失败，检查网络或链接。"
+    fetch_pkg "$SRC" "$MIRROR_1" "$MIRROR_2" \
+      || die "所有下载源都失败了。可以手动下载 dsh-kassel-boot-0.1.0.tgz 后本地安装。"
     SRC="$STAGE/pkg.tgz"
     ;;
   *)
@@ -192,6 +209,8 @@ ok "安装完成。"
 blue ""
 printf "  下一步：\033[1m完全退出 DeepSeek Harness（⌘Q），再重新打开\033[0m\n"
 printf "  启动后会出现六屏授权动画，点一下或按 Enter 进入下一屏。\n\n"
-printf "  想卸载：拿这个文件运行 \033[1msh \"%s\" --uninstall\033[0m\n" "$(basename "$0")"
+SELF_NAME=$(basename "$0")
+case "$SELF_NAME" in bash|sh|-bash|dash|zsh) SELF_NAME="install.sh" ;; esac
+printf "  想卸载：跑 \033[1msh %s --uninstall\033[0m\n" "$SELF_NAME"
 blue ""
 pause

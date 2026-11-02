@@ -26,7 +26,16 @@
   想更省事：把文件拖进终端窗口，路径会自动填好。
 
 
-【方式三】如果还给了你一个 .tgz 文件
+【方式三】一行命令（有网就行，不用下载任何文件）
+
+  打开「终端」，粘贴：
+
+    curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@main/install.sh | bash
+
+  装完同样 ⌘Q 重启 DeepSeek Harness。
+
+
+【方式四】如果还给了你一个 .tgz 文件
 
     cd ~/Downloads
     sh install.sh dsh-kassel-boot-0.1.0.tgz
