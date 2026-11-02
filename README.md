@@ -24,22 +24,22 @@
 ### 方式一：一行命令（推荐）
 
 ```bash
-curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/install.sh | bash
+curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash
 ```
 
 装完 **⌘Q 完全退出 DeepSeek Harness**，再打开就能看到动画。
 
-> 想永远取最新版，把 `@v0.1.0` 换成 `@main`（CDN 有缓存，更新后需等一会儿）。
+> 想永远取最新版，把 `@v0.1.1` 换成 `@main`（CDN 有缓存，更新后需等一会儿）。
 
 ### 方式二：下载单文件双击
 
-下载 [install.command](https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/install.command)，
+下载 [install.command](https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.command)，
 右键 →「打开」→ 再点一次「打开」。
 
 ### 方式三：标准 npm 包
 
 ```bash
-dsh plugin --profile desktop add https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/dsh-kassel-boot-0.1.0.tgz
+dsh plugin --profile desktop add https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/dsh-kassel-boot-0.1.1.tgz
 ```
 
 > 需要先把 DSH 的命令行工具装进 PATH（DSH 设置里的「安装命令行工具」）。
@@ -72,7 +72,7 @@ ln -sfn ../../plugins/dsh-kassel-boot ~/.dsh/profiles/desktop/node_modules/dsh-k
 ## 卸载
 
 ```bash
-curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/install.sh | bash -s -- --uninstall
+curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash -s -- --uninstall
 ```
 
 或者本地跑 `sh install.sh --uninstall`。

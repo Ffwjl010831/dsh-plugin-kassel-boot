@@ -12,7 +12,7 @@
 
   打开「终端」，粘贴：
 
-    curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/install.sh | bash
+    curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash
 
   看到「安装完成」后，⌘Q 完全退出 DeepSeek Harness，再打开。
 
@@ -38,7 +38,7 @@
 【方式四】如果还给了你一个 .tgz 文件
 
     cd ~/Downloads
-    sh install.sh dsh-kassel-boot-0.1.0.tgz
+    sh install.sh dsh-kassel-boot-0.1.1.tgz
 
 
 卸载
@@ -46,7 +46,7 @@
 
   在线装的，用这条：
 
-    curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.0/install.sh | bash -s -- --uninstall
+    curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash -s -- --uninstall
 
   本地装的，用这条：
 

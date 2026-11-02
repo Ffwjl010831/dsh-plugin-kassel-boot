@@ -1,6 +1,6 @@
 {
   "name": "dsh-kassel-boot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "卡塞尔学院风格启动动画：DSH 启动时全屏播放六屏授权的交接序列，点击或 Enter 逐屏推进，结尾以暗金「欢迎来到卡塞尔」交还宿主。",
   "repository": {
     "type": "git",

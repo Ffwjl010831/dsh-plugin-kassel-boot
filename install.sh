@@ -10,14 +10,16 @@
 set -e
 
 PKG="dsh-kassel-boot"
-VER="0.1.0"
+VER="0.1.1"
+REPO="Ffwjl010831/dsh-plugin-kassel-boot"
+PKG_FILE="${PKG}-${VER}.tgz"
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
 SELF_DIR=$(cd "$(dirname "$0")" && pwd)
 
 # 没有本地包时的下载源。国内直连 raw.githubusercontent.com 经常超时，所以 CDN 放第一。
-PKG_URL="${KASSEL_PKG_URL:-https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@main/dsh-kassel-boot-0.1.0.tgz}"
-MIRROR_1="https://raw.githubusercontent.com/Ffwjl010831/dsh-plugin-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz"
-MIRROR_2="https://ghfast.top/https://raw.githubusercontent.com/Ffwjl010831/dsh-plugin-kassel-boot/main/dsh-kassel-boot-0.1.0.tgz"
+PKG_URL="${KASSEL_PKG_URL:-https://cdn.jsdelivr.net/gh/${REPO}@main/${PKG_FILE}}"
+MIRROR_1="https://raw.githubusercontent.com/${REPO}/main/${PKG_FILE}"
+MIRROR_2="https://ghfast.top/https://raw.githubusercontent.com/${REPO}/main/${PKG_FILE}"
 # 占位符还没换成真用户名时视为未配置（字符串拼开写，避免被 build-share 的 perl 一起替换）
 PLACEHOLDER="__GITHUB""_USER__"
 
@@ -128,7 +130,7 @@ trap 'rm -rf "$STAGE"; rm -f "$EDITS"' EXIT
 
 SRC="$1"
 if [ -z "$SRC" ]; then
-  SRC=$(ls "$SELF_DIR"/dsh-kassel-boot-*.tgz 2>/dev/null | head -1 || true)
+  SRC=$(ls "$SELF_DIR"/${PKG}-*.tgz 2>/dev/null | head -1 || true)
 fi
 if [ -z "$SRC" ] && grep -qx '__KASSEL_PAYLOAD__' "$0" 2>/dev/null; then
   awk 'f{print} /^__KASSEL_PAYLOAD__$/{f=1}' "$0" > "$STAGE/payload.b64"
