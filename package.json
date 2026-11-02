@@ -2,6 +2,14 @@
   "name": "dsh-kassel-boot",
   "version": "0.1.0",
   "description": "卡塞尔学院风格启动动画：DSH 启动时全屏播放六屏授权的交接序列，点击或 Enter 逐屏推进，结尾以暗金「欢迎来到卡塞尔」交还宿主。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ffwjl010831/dsh-plugin-kassel-boot.git"
+  },
+  "homepage": "https://github.com/Ffwjl010831/dsh-plugin-kassel-boot#readme",
+  "bugs": {
+    "url": "https://github.com/Ffwjl010831/dsh-plugin-kassel-boot/issues"
+  },
   "type": "module",
   "main": "lib/index.js",
   "icon": "assets/icon.png",
@@ -17,7 +25,7 @@
   "license": "MIT",
   "files": [
     "lib",
-    "assets",
+    "assets/icon.png",
     "cordis.patch.yml",
     "package.json",
     "README.md"
