@@ -21,50 +21,66 @@
 
 ## 安装
 
-### 方式一：一行命令（推荐）
+安装方式与 [`dsh-startup-screen`](https://github.com/6shenhonghong9/dsh-startup-screen) 一致：
+下载 tgz，用 DSH 自带的 `dsh plugin add` 装进去。
+
+### 一、直接安装（推荐）
+
+先下载安装包：
+
+```bash
+curl -fL -o dsh-kassel-boot-0.1.1.tgz \
+  https://github.com/Ffwjl010831/dsh-plugin-kassel-boot/releases/download/v0.1.1/dsh-kassel-boot-0.1.1.tgz
+```
+
+再装进桌面端 profile：
+
+```bash
+dsh plugin --profile desktop add ./dsh-kassel-boot-0.1.1.tgz
+```
+
+`web` profile 同理，把 `desktop` 换成 `web`。装完 **⌘Q 完全退出 DeepSeek Harness**，再打开就能看到动画。
+
+> **两个前提**
+>
+> 1. `dsh` 命令要在 PATH 里 —— DSH 菜单里有「安装命令行工具」。没装就用完整路径：
+>    `/Applications/DeepSeek\ Harness.app/Contents/Resources/runtime/cli/bin/dsh`
+> 2. **先打开一次 DSH 让 profile 初始化，再 ⌘Q 完全退出**，然后执行命令。否则会报
+>    `Open DeepSeek Harness Desktop once to initialize its profile`。
+
+### 为什么必须用 `dsh plugin add`
+
+DSH 靠 **`dsh.profile.bundles`** 这个层堆栈决定加载哪些插件。`dsh plugin add` 是 `pnpm add` 的包装，
+装完之后 DSH 会**自动把「声明了 `dsh.bundle` 的依赖」并入层堆栈** —— 本插件在 `package.json` 里
+声明的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，就在那一步作为一层被应用。
+
+手工把目录拷进 `node_modules` 不会被识别，少的就是这一步。
+
+### 二、一行命令 / 双击（本仓库额外提供）
+
+不想手动下载的话：
 
 ```bash
 curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash
 ```
 
-装完 **⌘Q 完全退出 DeepSeek Harness**，再打开就能看到动画。
+或下载 [install.command](https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.command)
+后右键 →「打开」→ 再点一次「打开」。这两条走脚本内部的等价流程（放文件 + 写 `bundles`），
+不需要 `dsh` 命令，适合命令行工具没装的情况。
 
-> 想永远取最新版，把 `@v0.1.1` 换成 `@main`（CDN 有缓存，更新后需等一会儿）。
+### 三、桌面端「插件」页
 
-### 方式二：下载单文件双击
+部分 DSH 版本会拒绝在终端里操作 `desktop` profile（提示 managed exclusively by the Electron
+application）。这时打开 DSH 的「插件」页，按 **tarball / 本地路径** 来源添加上面那个 tgz。
 
-下载 [install.command](https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.command)，
-右键 →「打开」→ 再点一次「打开」。
+> **别用 `dsh plugin add github:用户名/仓库`。** pnpm 会通过 HTTPS 拉 git 仓库，部分网络下直接
+> `CONNECT tunnel failed, response 502`；即便网络通，git 来源还会触发 `prepare` 构建被 pnpm 拦截，
+> 要额外配 `allowBuilds`。走 tgz 最稳。
 
-### 方式三：装进 DSH 插件库（官方命令）
+### 手动装（不用 pnpm）
 
-```bash
-dsh plugin --profile desktop add https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/dsh-kassel-boot-0.1.1.tgz
-```
-
-这条走的是 DSH 自带的插件管理命令（内部转发给 profile 里的 pnpm）。它除了下载安装，还会**自动把 `dsh-kassel-boot` 写进 profile 的 `dsh.profile.bundles`**，不需要再手改配置文件。
-
-两个前提：
-
-1. **`dsh` 命令要在 PATH 里** —— DSH 菜单里有「安装命令行工具」。没有的话用完整路径：
-   `/Applications/DeepSeek\ Harness.app/Contents/Resources/runtime/cli/bin/dsh`
-2. **先打开一次 DSH 让 profile 初始化，然后 ⌘Q 完全退出**，再运行命令。否则会报
-   `Open DeepSeek Harness Desktop once to initialize its profile`。
-
-卸载：
-
-```bash
-dsh plugin --profile desktop remove dsh-kassel-boot
-```
-
-> 别用 `dsh plugin add github:用户名/仓库`。pnpm 会通过 HTTPS 拉取 git 仓库，部分网络下直接
-> `CONNECT tunnel failed, response 502`；而且 git 来源会触发 `prepare` 构建被 pnpm 拦截，还要额外配
-> `allowBuilds`。用上面的 tgz 直链最稳。
-
-### 手动装
-
-把仓库内容放进 `~/.dsh/plugins/dsh-kassel-boot`（注意目录名是 `dsh-kassel-boot`，
-而克隆下来的仓库目录叫 `dsh-plugin-kassel-boot`，改名或直接复制内容即可），然后：
+把仓库内容放到 `~/.dsh/plugins/dsh-kassel-boot`（注意目录名是 `dsh-kassel-boot`，克隆下来的仓库
+目录叫 `dsh-plugin-kassel-boot`，改名或只复制内容），然后：
 
 ```bash
 ln -sfn ../../plugins/dsh-kassel-boot ~/.dsh/profiles/desktop/node_modules/dsh-kassel-boot
@@ -88,11 +104,19 @@ ln -sfn ../../plugins/dsh-kassel-boot ~/.dsh/profiles/desktop/node_modules/dsh-k
 
 ## 卸载
 
+用 `dsh plugin add` 装的：
+
+```bash
+dsh plugin --profile desktop remove dsh-kassel-boot
+```
+
+用一行命令 / 双击装的（脚本会把两处都清干净）：
+
 ```bash
 curl -fsSL https://cdn.jsdelivr.net/gh/Ffwjl010831/dsh-plugin-kassel-boot@v0.1.1/install.sh | bash -s -- --uninstall
 ```
 
-或者本地跑 `sh install.sh --uninstall`。
+或者本地跑 `sh install.sh --uninstall`。卸载后同样要 ⌘Q 重启。
 
 ---
 
